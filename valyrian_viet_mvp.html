@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Valyrian Việt — Học High Valyrian</title>
+<style>
+:root{--bg:#10131b;--panel:#1a2030;--panel2:#242d40;--gold:#f1c66b;--green:#78d83c;--muted:#aeb8c9;--text:#f6f1e8;--red:#e87561}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#263047 0,#10131b 55%);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#10131beF;border-bottom:1px solid #394154;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850}.sigil{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#7d2b25,#271923);display:grid;place-items:center;font-size:25px;border:1px solid #c57a4e}.stats{display:flex;gap:12px;font-weight:750}.stat{background:#222a3a;padding:7px 10px;border-radius:12px}
+main{max-width:980px;margin:0 auto;padding:22px 16px 100px}.hero{padding:25px;border:1px solid #5b4a35;border-radius:22px;background:linear-gradient(120deg,#282d3d,#301f27);box-shadow:0 12px 35px #0004}.eyebrow{color:var(--gold);font-size:12px;letter-spacing:.14em;font-weight:800}.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.1;margin:8px 0}.hero p{color:#d5d7df;max-width:620px}.progressline{height:9px;background:#41495b;border-radius:20px;overflow:hidden;margin:14px 0 5px}.progressline span{display:block;height:100%;background:var(--green);width:0%;transition:.25s}.sectionhead{display:flex;justify-content:space-between;align-items:end;margin:26px 0 12px}.sectionhead h2{margin:0;font-size:22px}.muted{color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}.card{background:var(--panel);border:1px solid #374154;border-radius:18px;padding:17px}.lesson{cursor:pointer;transition:.15s}.lesson:hover{transform:translateY(-2px);border-color:var(--gold)}.lesson .icon{font-size:27px}.lesson h3{margin:8px 0 4px}.pill{display:inline-block;border:1px solid #555e70;color:#dce1eb;border-radius:20px;padding:3px 9px;font-size:12px;margin-top:8px}.btn{border:0;border-radius:13px;background:var(--green);color:#15210e;font-weight:850;padding:12px 17px;cursor:pointer;font-size:15px}.btn.secondary{background:#30394b;color:var(--text);border:1px solid #505c70}.btn.gold{background:var(--gold);color:#291d0c}.btn:disabled{opacity:.4;cursor:not-allowed}.lessonrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.word{font-size:29px;font-weight:850;color:var(--gold);letter-spacing:.02em}.question{font-size:22px;font-weight:800;margin:18px 0}.answers{display:grid;gap:10px}.answer{padding:13px;border-radius:13px;border:1px solid #4b566b;background:#242d3e;color:var(--text);text-align:left;cursor:pointer;font-size:16px}.answer:hover{border-color:var(--gold)}.answer.correct{border-color:var(--green);background:#223b25}.answer.wrong{border-color:var(--red);background:#43292b}.feedback{min-height:26px;margin:12px 0;font-weight:700}.small{font-size:13px;color:var(--muted)}footer{text-align:center;color:#929bad;font-size:12px;margin-top:30px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.hidden{display:none!important}
+@media(max-width:520px){header{align-items:flex-start}.stats{gap:5px}.stat{padding:6px;font-size:13px}.hero{padding:19px}.lessonrow{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="sigil">🐉</div><div>VALYRIAN VIỆT<div class="small">Học High Valyrian bằng tiếng Việt</div></div></div><div class="stats"><div class="stat">🔥 <span id="streak">1</span></div><div class="stat">✨ <span id="xp">0</span> XP</div></div></header>
+<main>
+<section class="hero"><div class="eyebrow">BẢN THỬ NGHIỆM • MVP 0.1</div><h1>Một ngôn ngữ.<br>Một đế chế.</h1><p>Học High Valyrian từng bước qua từ vựng, câu mẫu và câu hỏi ngắn. Bản demo này dùng nội dung khởi đầu; hãy kiểm chứng ngữ pháp trước khi mở rộng thành khóa học đầy đủ.</p><div class="progressline"><span id="progress"></span></div><div class="lessonrow"><span class="small" id="progressText">0/4 bài hoàn thành</span><button class="btn gold" onclick="startLesson(0)">Bắt đầu học →</button></div></section>
+<div class="sectionhead"><div><h2>Con đường học tập</h2><div class="muted">Mỗi bài ngắn, một mục tiêu rõ ràng</div></div></div>
+<section class="grid" id="lessonList"></section>
+<section class="card hidden" id="study" style="margin-top:18px">
+<div class="lessonrow"><div><div class="eyebrow" id="lessonLabel">BÀI HỌC</div><h2 id="lessonTitle">Xin chào!</h2></div><button class="btn secondary" onclick="closeLesson()">✕ Đóng</button></div>
+<div class="progressline"><span id="quizProgress"></span></div><div class="small" id="qcount"></div>
+<div class="question" id="prompt"></div><div class="answers" id="answers"></div><div class="feedback" id="feedback" aria-live="polite"></div><button class="btn hidden" id="next" onclick="nextQuestion()">Tiếp tục →</button>
+</section>
+<div class="sectionhead"><div><h2>Sổ tay từ vựng</h2><div class="muted">Những mục khởi đầu để làm quen</div></div></div>
+<section class="grid" id="vocab"></section>
+<section class="card" style="margin-top:18px"><h3>📚 Nguyên tắc biên soạn</h3><p class="muted">High Valyrian là ngôn ngữ hư cấu được phát triển cho Game of Thrones. Đây là bản thử nghiệm học tập độc lập, không liên kết với Duolingo, HBO hay chủ sở hữu thương hiệu. Câu trích dẫn và nghĩa cần được kiểm tra theo nguồn ngôn ngữ đáng tin cậy trước khi dùng cho khóa học chính thức.</p></section>
+<footer>Valyrian Việt • Bản demo chạy trực tiếp trên trình duyệt • Tiến độ được giữ trong phiên hiện tại</footer>
+</main>
+<script>
+const lessons=[
+ {title:"Lời chào & câu quen thuộc",icon:"👋",desc:"Làm quen với các cụm từ nổi tiếng",items:[
+  {q:"“Valar morghulis” thường được dịch là gì?",a:["Mọi người đều phải chết","Rồng sẽ trở lại","Tự do cho Valyria"],c:0,n:"Cụm từ nổi tiếng trong thế giới A Song of Ice and Fire."},
+  {q:"Câu đáp truyền thống cho “Valar morghulis” là gì?",a:["Dracarys","Valar dohaeris","Aōha"],c:1,n:"“Valar dohaeris” thường được dịch là “Mọi người đều phải phục vụ”."},
+  {q:"“Dracarys!” gắn với ý nghĩa nào?",a:["Chào buổi sáng","Phun lửa / lệnh phóng hỏa của rồng","Tạm biệt"],c:1,n:"Đây là từ mệnh lệnh nổi tiếng trong phim; không nên suy rộng quy tắc ngữ pháp từ riêng từ này."}
+ ]},
+ {title:"Rồng & lửa",icon:"🔥",desc:"Nhận diện các từ gắn với rồng",items:[
+  {q:"Từ nào nổi tiếng là lệnh “Dracarys!”?",a:["Lời chào","Lệnh phóng hỏa","Lời cảm ơn"],c:1,n:"Từ này được dùng như lệnh cho rồng phun lửa trong phim."},
+  {q:"Khi học từ mới trong High Valyrian, điều gì nên ghi kèm?",a:["Chỉ cách viết","Nghĩa, ngữ cảnh và nguồn kiểm chứng","Chỉ emoji"],c:1,n:"Ngữ cảnh rất quan trọng vì ngôn ngữ có hệ thống ngữ pháp riêng."}
+ ]},
+ {title:"Nghe & nhận diện",icon:"🎧",desc:"Tập trung vào âm thanh và ngữ cảnh",items:[
+  {q:"Cách tốt nhất để luyện phát âm là gì?",a:["Đoán theo tiếng Việt","Nghe nguồn phát âm đáng tin cậy và nhắc lại","Bỏ qua âm thanh"],c:1,n:"Bản demo chưa tích hợp audio chuẩn; tính năng âm thanh cần nguồn được cấp phép hoặc ghi âm mới."}
+ ]},
+ {title:"Ôn tập tổng hợp",icon:"🏆",desc:"Kiểm tra kiến thức đã học",items:[
+  {q:"High Valyrian là gì?",a:["Một ngôn ngữ có thật từ thời La Mã","Ngôn ngữ hư cấu trong vũ trụ Game of Thrones","Một phương ngữ tiếng Việt"],c:1,n:"Đây là ngôn ngữ hư cấu được phát triển cho tác phẩm."}
+ ]}
+];
+const vocab=[
+ {w:"Valar morghulis",m:"Mọi người đều phải chết",tag:"Cụm từ nổi tiếng"},
+ {w:"Valar dohaeris",m:"Mọi người đều phải phục vụ",tag:"Cụm từ đáp lại"},
+ {w:"Dracarys",m:"Lệnh phóng hỏa / rồng phun lửa",tag:"Từ trong phim"},
+ {w:"High Valyrian",m:"Tiếng Valyria cao",tag:"Tên ngôn ngữ"}
+];
+let xp=0,done=new Set(),li=0,qi=0,correctCount=0,locked=false;
+const $=id=>document.getElementById(id);
+function renderLessons(){$("lessonList").innerHTML=lessons.map((l,i)=>`<article class="card lesson" onclick="startLesson(${i})"><div class="lessonrow"><div class="icon">${l.icon}</div><span class="pill">${done.has(i)?"✓ Hoàn thành":"Bài "+(i+1)}</span></div><h3>${l.title}</h3><div class="muted">${l.desc}</div><div class="small" style="margin-top:10px">${l.items.length} câu hỏi · +${l.items.length*10} XP tối đa</div></article>`).join("");$("vocab").innerHTML=vocab.map(v=>`<article class="card"><div class="word" style="font-size:22px">${v.w}</div><div style="margin:7px 0">${v.m}</div><span class="pill">${v.tag}</span></article>`).join("");updateStats()}
+function updateStats(){$("xp").textContent=xp;$("streak").textContent="1";$("progress").style.width=(done.size/lessons.length*100)+"%";$("progressText").textContent=`${done.size}/${lessons.length} bài hoàn thành`}
+function startLesson(i){li=i;qi=0;correctCount=0;locked=false;$("study").classList.remove("hidden");$("lessonTitle").textContent=lessons[i].title;$("lessonLabel").textContent="BÀI "+(i+1);showQuestion();$("study").scrollIntoView({behavior:"smooth",block:"start"})}
+function showQuestion(){let item=lessons[li].items[qi];locked=false;$("qcount").textContent=`Câu ${qi+1}/${lessons[li].items.length}`;$("quizProgress").style.width=(qi/lessons[li].items.length*100)+"%";$("prompt").textContent=item.q;$("feedback").textContent="";$("next").classList.add("hidden");$("answers").innerHTML=item.a.map((a,i)=>`<button class="answer" onclick="chooseAnswer(${i})">${["A","B","C","D"][i]}. ${a}</button>`).join("")}
+function chooseAnswer(i){if(locked)return;locked=true;let item=lessons[li].items[qi],buttons=[...$("answers").querySelectorAll("button")];buttons[item.c].classList.add("correct");if(i===item.c){xp+=10;correctCount++;$("feedback").textContent="Chính xác! +10 XP. "+item.n}else{buttons[i].classList.add("wrong");$("feedback").textContent="Chưa đúng. "+item.n}buttons.forEach(b=>b.disabled=true);$("xp").textContent=xp;$("next").textContent=qi===lessons[li].items.length-1?"Hoàn thành bài ✓":"Tiếp tục →";$("next").classList.remove("hidden")}
+function nextQuestion(){if(qi<lessons[li].items.length-1){qi++;showQuestion()}else{done.add(li);renderLessons();$("quizProgress").style.width="100%";$("qcount").textContent="Đã hoàn thành";$("prompt").textContent=`Tuyệt vời! Bạn trả lời đúng ${correctCount}/${lessons[li].items.length} câu.`;$("answers").innerHTML="";$("feedback").textContent="Tiến độ trong bản demo được cập nhật. Hãy tiếp tục hành trình!";$("next").textContent="Học bài khác";$("next").onclick=()=>{closeLesson();$("next").onclick=nextQuestion};$("next").classList.remove("hidden")}}
+function closeLesson(){$("study").classList.add("hidden");$("next").onclick=nextQuestion}
+renderLessons();
+</script>
+</body></html>
